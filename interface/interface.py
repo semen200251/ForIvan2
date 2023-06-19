@@ -1,6 +1,7 @@
 """Модуль отвечает за интерфейс приложения. Также в нем содержится управляющая функция всего проекта."""
 
 import os
+import time
 
 import tkinter as tk
 from tkinter import messagebox, filedialog, scrolledtext
@@ -9,6 +10,7 @@ import core.readOF as readOF
 import settings.interface as config_for_interface
 import settings.interface_style as interface_style
 import core.io as oi
+
 
 def choose_folder(folder_id, buttons):
     """Функция обрабатывает нажатие кнопки для различных ситуаций.
@@ -26,7 +28,6 @@ def choose_folder(folder_id, buttons):
             config_for_interface.path_to_to_folder = folder_path
             buttons[0].configure(bg="#118844")
             buttons[1].configure(state="normal", bg="#1166EE")
-            print("1111")
         else:
             messagebox.showerror("Ошибка", "Выберите папку")
             return
@@ -35,7 +36,6 @@ def choose_folder(folder_id, buttons):
             config_for_interface.path_to_from_folder = folder_path
             buttons[1].configure(bg="#118844")
             buttons[2].configure(state="normal", bg="#1166EE")
-            print("2222")
         else:
             messagebox.showerror("Ошибка", "Выберите папку")
             return
@@ -140,7 +140,6 @@ def start_click(folder_id, labels, window, text_area, buttons):
     labels[-1].place(relx=0.025, rely=0.55)
     _switch_info_labels(value, labels)
     if folder_id == 1:
-        print(config_for_interface.path_to_from_folder)
         paths_to_projects = _get_paths_to_file(config_for_interface.path_to_from_folder)
         if paths_to_projects is None:
             return
@@ -154,16 +153,19 @@ def start_click(folder_id, labels, window, text_area, buttons):
                                  e)
             return
         for path in paths_to_projects:
+            start = time.time()
             file_name = os.path.basename(path)
             path = os.path.join(path_to_project_folder, file_name)
             res = readOF.main(path, path_to_excel_folder)
+            end = time.time()
             if res is None:
                 paths_to_bad_files.append(path)
                 text_area.insert(tk.INSERT,
                                  f"{os.path.basename(paths_to_projects[value])}    -    Не успешно\n")
             else:
                 text_area.insert(tk.INSERT,
-                                 f"{os.path.basename(paths_to_projects[value])}    -    Успешно\n")
+                                 f"{os.path.basename(paths_to_projects[value])}    -    Успешно"
+                                 f"    Время: {int(end-start)} cекунд\n")
             value = value + 1
             _update_progress(value, len(paths_to_projects), labels)
             window.update()
@@ -228,7 +230,7 @@ def create_label(self, props):
     """Создает лейбл по переданным атрибутам лейбла, размещает его и возвращает объект лейбла."""
 
     label = tk.Label(self, text=props["text"], font=('Arial', 12), background="light blue")
-    label.place(relx = props["relx"], rely = props["rely"])
+    label.place(relx=props["relx"], rely=props["rely"])
     return label
 
 

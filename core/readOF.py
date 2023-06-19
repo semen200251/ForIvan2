@@ -4,7 +4,6 @@ import datetime
 import logging
 import os
 import pickle
-import time
 
 import pandas as pd
 import pythoncom
@@ -28,7 +27,6 @@ def get_project(path):
     try:
         msp = win32.Dispatch("MSProject.Application", pythoncom.CoInitialize())
         _abs_path = os.path.abspath(path)
-        print(_abs_path)
         msp.FileOpen(_abs_path)
         project = msp.ActiveProject
     except Exception:
@@ -101,7 +99,6 @@ def set_style_excel(column_index, path_to_excel):
     (Фаза, феха и т.д.).
     """
     try:
-        print(os.getcwd())
         with open(config.PATH_TO_STYLE_FILE, 'rb') as file:
             styles_dict = pickle.load(file)
     except FileNotFoundError:
@@ -125,23 +122,10 @@ def set_style_excel(column_index, path_to_excel):
     for column_index, column in enumerate(worksheet_other.columns, start=1):
         for cell in column:
             if isinstance(cell.value, datetime.date):
-                cell.number_format = numbers.FORMAT_DATE_YYYYMMDD2
+                cell.number_format = numbers.builtin_format_code(14)
 
     workbook_other.save(path_to_excel)
 
-
-def set_date_format(path):
-    excel = win32.Dispatch('Excel.Application')
-    print(excel)
-    workbook = excel.Workbooks.Open(path)
-    print(workbook)
-    worksheet = workbook.Sheets(1)
-    print(worksheet)
-    column_range = worksheet.Range('I:I')
-    column_range.NumberFormat = 'длинный_формат_даты'
-    workbook.Save()
-    workbook.Close()
-    excel.Quit()
 
 
 def main(path_to_project, path_to_folder):
@@ -153,7 +137,6 @@ def main(path_to_project, path_to_folder):
     """
     path_to_excel = None
     try:
-        start = time.time()
         project, msp = get_project(path_to_project)
         data = fill_dataframe(project)
         file_name = os.path.splitext(os.path.basename(path_to_project))[0]
@@ -162,12 +145,8 @@ def main(path_to_project, path_to_folder):
         data.to_excel(path_to_excel, sheet_name=f"Обменная форма {datetime.date.today()}", index=False)
         column_index = data.columns.get_loc(config.ID_COLUMN['Text5']) + 1
         set_style_excel(column_index, path_to_excel)
-        set_date_format(path_to_excel)
-        end = time.time()
-        print(end - start)
     except Exception as e:
         print(e)
         return path_to_excel
     msp.Quit()
     return path_to_excel
-

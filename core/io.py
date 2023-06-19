@@ -41,7 +41,6 @@ def transfer_files(file_paths, destination_folder):
                 file_name = os.path.basename(file_path)
                 destination_file = os.path.join(destination_folder, file_name)
                 shutil.copyfile(file_path, destination_file)
-                print(f"Файл {file_name} успешно загружен в папку {destination_folder}.")
             except Exception as e:
                 return e
     return True
