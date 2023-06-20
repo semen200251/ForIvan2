@@ -13,7 +13,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import numbers
 
 import settings.readOF as config
-
+import settings.types as types
 
 def get_project(path):
     """Открывает файл проекта и возвращает объект проекта.
@@ -61,6 +61,37 @@ def _get_data_task(t):
     return arr
 
 
+def _get_column_name(worksheet):
+    """Получает названия столбцов обменной формы.
+
+    Это требуется так как столбцы в excel, прочитанные с помощью openpyxl, представляют собой объекты.
+    Для упрощения в дальнейшем написания кода, эта функция достает из Excel названия столбцов.
+    """
+    column_headers = []
+    for cell in worksheet[1]:
+        column_headers.append(cell.value)
+    return column_headers
+
+
+def _get_column_to_switch_format(ws, column_names):
+    """Создает словарь с объектами столбцов Excel и их требуемым типом и возвращает его.
+
+    Столбцы в excel, прочитанные с помощью openpyxl, представляют собой объекты.
+    Так как в словаре в конфиге прописаны названия столбцов, а не сами объекты, то
+    мне нужно соотнести названия с объектами. Данная функция проходит по списку названий столбцов,
+    которые нужно изменить, затем по списку названий всех столбцов, чтобы найти индексы
+    нужных и по ним получить объекты столбцов. На выход поступает словарь, в качестве ключей содержит
+    объекты столбцов excel, в качестве значений требуемый тип.
+    """
+    column_to_switch = {}
+    ws_columns_list = list(ws.columns)
+    for key in types.COLUMN_TYPES.keys():
+        for i in range(1, len(column_names)):
+            if column_names[i] == key:
+                column_to_switch[ws_columns_list[i]] = types.COLUMN_TYPES[key]
+    return column_to_switch
+
+
 def fill_dataframe(project):
     """Заполняет DataFrame значениями из project.
 
@@ -96,7 +127,8 @@ def set_style_excel(column_index, path_to_excel):
     Функция создает объект worksheet из объекта workbook и
     применяет изменения из pickle файла, в котором содержится
     словарь для стилей для каждого конкретного ключевого значения
-    (Фаза, феха и т.д.).
+    (Фаза, феха и т.д.). Также она применяет тип данных там, где
+    это требуется, например Дата и Процент.
     """
     try:
         with open(config.PATH_TO_STYLE_FILE, 'rb') as file:
@@ -106,6 +138,8 @@ def set_style_excel(column_index, path_to_excel):
         raise Exception("Неверный путь до файла со стилями")
     workbook_other = openpyxl.load_workbook(path_to_excel)
     worksheet_other = workbook_other.active
+    headers = _get_column_name(worksheet_other)
+    column_to_switch = _get_column_to_switch_format(worksheet_other, headers)
     for row in worksheet_other.iter_rows(min_row=1):
         cell = row[column_index - 1]
         cell_value = cell.value
@@ -120,7 +154,13 @@ def set_style_excel(column_index, path_to_excel):
                     worksheet_other.column_dimensions[column_letter].width = text_length
 
     for column_index, column in enumerate(worksheet_other.columns, start=1):
-        for cell in column:
+        column_iter = iter(column)
+        next(column_iter)
+        for cell in column_iter:
+            if column in column_to_switch.keys():
+                if column_to_switch[column] == "%":
+                    cell.number_format = "0.00%"
+                    cell.value = cell.value/100
             if isinstance(cell.value, datetime.date):
                 cell.number_format = numbers.builtin_format_code(14)
 
