@@ -21,8 +21,7 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
-Затем можно либо запустить main.exe:
-
+### Вариант 1: Запуск через main.exe
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
   <pre><code>
       main.exe
@@ -30,7 +29,7 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
-Либо выполнить следующие шаги:
+### Вариант 2: Запуск через main.py
 
 ### Установка зависимостей
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
