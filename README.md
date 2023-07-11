@@ -7,7 +7,7 @@
 
 ### Клонирование репозитория
 <div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre>
+  <pre style="margin: 0;">
     <code>
       git clone https://github.com/semen200251/ForIvan2.git
     </code>
@@ -17,7 +17,7 @@
 
 ### Переход в папку репозитория
 <div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre>
+  <pre style="margin: 0;">
     <code>
       cd ForIvan2
     </code>
@@ -27,7 +27,7 @@
 
 ### Установка зависимостей
 <div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre>
+  <pre style="margin: 0;">
     <code>
       pip install -r requirements.txt
     </code>
