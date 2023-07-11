@@ -21,7 +21,7 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
-### Вариант 1: Запуск через main.exe
+### Вариант 1: Запуск через main.exe:
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
   <pre><code>
       main.exe
@@ -29,7 +29,7 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
-### Вариант 2: Запуск через main.py
+#### Вариант 2: Запуск через main.py:
 
 ### Установка зависимостей
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
@@ -62,15 +62,3 @@
 - У пользователя должен быть доступ к папке Documents, там будет создана резеврная папка;
 - У пользователя должен быть доступ к выбранным для работы папкам и файлам в них;
 - У пользователя должен быть закрыт MS Project во время работы с программой.
-
-<script>
-function copyToClipboard() {
-  var textToCopy = document.querySelector("code");
-  var tempTextArea = document.createElement("textarea");
-  tempTextArea.value = textToCopy.innerText;
-  document.body.appendChild(tempTextArea);
-  tempTextArea.select();
-  document.execCommand("copy");
-  document.body.removeChild(tempTextArea);
-}
-</script>
