@@ -14,7 +14,6 @@
   </pre>
   <button onclick="copyToClipboard()">Скопировать</button>
 </div>
-
 ### Переход в папку репозитория
 <div style="background-color: #f2f2f2; padding: 10px;">
   <pre>
@@ -24,7 +23,6 @@
   </pre>
   <button onclick="copyToClipboard()">Скопировать</button>
 </div>
-
 ### Установка зависимостей
 <div style="background-color: #f2f2f2; padding: 10px;">
   <pre>
@@ -34,7 +32,6 @@
   </pre>
   <button onclick="copyToClipboard()">Скопировать</button>
 </div>
-
 ### Запуск программы
 <div style="background-color: #f2f2f2; padding: 10px;">
   <pre>
@@ -44,7 +41,6 @@
   </pre>
   <button onclick="copyToClipboard()">Скопировать</button>
 </div>
-
 ## Как работать с программой
 - Нажать кнопку, которая выделена синим цветом, чтобы выбрать папку, в которую будут выгружены обменные формы;
 - Нажать кнопку, которая после успешного выбора папки для выгрузки обменных форм выделится синим цветом, и выбрать папку с файлами MS Project;
