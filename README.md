@@ -21,6 +21,17 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
+Затем можно либо запустить main.exe:
+
+<div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
+  <pre><code>
+      main.exe
+  </code></pre>
+  <button onclick="copyToClipboard()"></button>
+</div>
+
+Либо выполнить следующие шаги:
+
 ### Установка зависимостей
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
   <pre><code>
@@ -36,6 +47,7 @@
   </code></pre>
   <button onclick="copyToClipboard()"></button>
 </div>
+
 
 ## Как работать с программой
 - Нажать кнопку, которая выделена синим цветом, чтобы выбрать папку, в которую будут выгружены обменные формы;
