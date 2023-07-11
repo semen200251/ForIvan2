@@ -2,6 +2,7 @@ __pycache__/
 
 venv/
 env/
+output/
 .idea/
 *.log
 *.pot

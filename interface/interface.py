@@ -67,7 +67,7 @@ def _update_progress(value, count, labels):
     labels[-2].configure(text=f"Выгружено: {value} файлов из {count}")
 
 
-def _switch_info_labels(value, labels):
+def _switch_info_labels(value, labels, buttons):
     """Функция выводит на экран текстовую информацию о результате загрузки.
 
     На вход поступает число, если его значение равно 0, то она выводит на
@@ -78,6 +78,8 @@ def _switch_info_labels(value, labels):
                  if item is not None)
     if value == 0:
         labels[-1].configure(text="Пожалуйста, ожидайте, выгрузка ОФ может занимать длительное время")
+        for button in buttons:
+            button.configure(state="disable")
     else:
         labels[-1].configure(
             text=f"Загрузка завершена. Загружено: {len(config_for_interface.path_to_results)} файлов.\n Успешно: {succes}")
@@ -91,7 +93,7 @@ def _change_after_work(value, labels, buttons):
     она скрывает лейбл с информацией для процесса загрузки.
     """
     labels[-2].place_forget()
-    _switch_info_labels(value, labels)
+    _switch_info_labels(value, labels, buttons)
     labels[-1].place_configure(relx=0.025, rely=0.5)
     buttons[2].configure(bg="#118844")
     buttons[3].configure(state="normal", bg="#1166EE")
@@ -138,7 +140,7 @@ def start_click(folder_id, labels, window, text_area, buttons):
     value = 0
     labels[-2].place(relx=0.025, rely=0.5)
     labels[-1].place(relx=0.025, rely=0.55)
-    _switch_info_labels(value, labels)
+    _switch_info_labels(value, labels, buttons)
     if folder_id == 1:
         paths_to_projects = _get_paths_to_file(config_for_interface.path_to_from_folder)
         if paths_to_projects is None:
@@ -163,9 +165,13 @@ def start_click(folder_id, labels, window, text_area, buttons):
                 text_area.insert(tk.INSERT,
                                  f"{os.path.basename(paths_to_projects[value])}    -    Не успешно\n")
             else:
+                size = round(os.path.getsize(path)/(1024*1024), 2)
+                time_for_file = int(end-start)
                 text_area.insert(tk.INSERT,
                                  f"{os.path.basename(paths_to_projects[value])}    -    Успешно"
-                                 f"    Время: {int(end-start)} cекунд\n")
+                                 f"    Время: {time_for_file} cекунд"
+                                 f"    Размер: {size}  Мб"
+                                 f"    Скорость: {round(size / time_for_file, 2)} Мб/сек\n")
             value = value + 1
             _update_progress(value, len(paths_to_projects), labels)
             window.update()
@@ -251,6 +257,6 @@ def configure_all(window, buttons, button_properties, labels):
         buttons.append(create_button(window, props))
     for props in interface_style.LABELS_PROPERTIES:
         labels.append(create_label(window, props))
-    text_area = scrolledtext.ScrolledText(window, width=80, height=10)
-    text_area.place(relx=0.17, rely=0.6)
+    text_area = scrolledtext.ScrolledText(window, width=115, height=10)
+    text_area.place(relx=0.03, rely=0.6)
     return buttons, labels, text_area
