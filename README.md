@@ -6,41 +6,45 @@
 ## Как начать работу
 
 ### Клонирование репозитория
-<div style="background-color: #f2f2f2; padding: 10px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 500px;">
   <pre>
     <code>
       git clone https://github.com/semen200251/ForIvan2.git
     </code>
   </pre>
-  <button onclick="copyToClipboard()">Скопировать</button>
+  <button onclick="copyToClipboard()"></button>
 </div>
+
 ### Переход в папку репозитория
-<div style="background-color: #f2f2f2; padding: 10px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 500px;">
   <pre>
     <code>
       cd ForIvan2
     </code>
   </pre>
-  <button onclick="copyToClipboard()">Скопировать</button>
+  <button onclick="copyToClipboard()"></button>
 </div>
+
 ### Установка зависимостей
-<div style="background-color: #f2f2f2; padding: 10px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 500px;">
   <pre>
     <code>
       pip install -r requirements.txt
     </code>
   </pre>
-  <button onclick="copyToClipboard()">Скопировать</button>
+  <button onclick="copyToClipboard()"></button>
 </div>
+
 ### Запуск программы
-<div style="background-color: #f2f2f2; padding: 10px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 500px;">
   <pre>
     <code>
       python main.py
     </code>
   </pre>
-  <button onclick="copyToClipboard()">Скопировать</button>
+  <button onclick="copyToClipboard()"></button>
 </div>
+
 ## Как работать с программой
 - Нажать кнопку, которая выделена синим цветом, чтобы выбрать папку, в которую будут выгружены обменные формы;
 - Нажать кнопку, которая после успешного выбора папки для выгрузки обменных форм выделится синим цветом, и выбрать папку с файлами MS Project;
