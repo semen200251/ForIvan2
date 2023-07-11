@@ -7,11 +7,9 @@
 
 ### Клонирование репозитория
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
-  <pre>
-    <code>
+  <pre><code>
       git clone https://github.com/semen200251/ForIvan2.git
-    </code>
-  </pre>
+    </code></pre>
   <button onclick="copyToClipboard()"></button>
 </div>
 
