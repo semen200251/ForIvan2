@@ -6,7 +6,7 @@
 ## Как начать работу
 
 ### Клонирование репозитория
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 50px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
   <pre>
     <code>
       git clone https://github.com/semen200251/ForIvan2.git
@@ -16,7 +16,7 @@
 </div>
 
 ### Переход в папку репозитория
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 50px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
   <pre>
     <code>
       cd ForIvan2
@@ -26,7 +26,7 @@
 </div>
 
 ### Установка зависимостей
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 50px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
   <pre>
     <code>
       pip install -r requirements.txt
@@ -36,7 +36,7 @@
 </div>
 
 ### Запуск программы
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 50px;">
+<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
   <pre>
     <code>
       python main.py
