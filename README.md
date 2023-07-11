@@ -7,7 +7,7 @@
 
 ### Клонирование репозитория
 <div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre style="margin: 0;">
+  <pre style="margin: 0;line-height: 1;">
     <code>
       git clone https://github.com/semen200251/ForIvan2.git
     </code>
