@@ -29,9 +29,9 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
-#### Вариант 2: Запуск через main.py:
+### Вариант 2: Запуск через main.py:
 
-### Установка зависимостей
+#### Установка зависимостей
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
   <pre><code>
       pip install -r requirements.txt
@@ -39,7 +39,7 @@
   <button onclick="copyToClipboard()"></button>
 </div>
 
-### Запуск программы
+#### Запуск программы
 <div style="background-color: #f2f2f2; padding: 10px">
   <pre><code>
       python main.py
