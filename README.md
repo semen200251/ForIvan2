@@ -9,37 +9,31 @@
 <div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
   <pre><code>
       git clone https://github.com/semen200251/ForIvan2.git
-    </code></pre>
+  </code></pre>
   <button onclick="copyToClipboard()"></button>
 </div>
 
 ### Переход в папку репозитория
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre style="margin: 0;">
-    <code>
+<div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
+  <pre><code>
       cd ForIvan2
-    </code>
-  </pre>
+  </code></pre>
   <button onclick="copyToClipboard()"></button>
 </div>
 
 ### Установка зависимостей
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre style="margin: 0;">
-    <code>
+<div style="background-color: #f2f2f2; padding: 10px;overflow: auto;">
+  <pre><code>
       pip install -r requirements.txt
-    </code>
-  </pre>
+  </code></pre>
   <button onclick="copyToClipboard()"></button>
 </div>
 
 ### Запуск программы
-<div style="background-color: #f2f2f2; padding: 10px;max-width: 20px;">
-  <pre>
-    <code>
+<div style="background-color: #f2f2f2; padding: 10px">
+  <pre><code>
       python main.py
-    </code>
-  </pre>
+  </code></pre>
   <button onclick="copyToClipboard()"></button>
 </div>
 
