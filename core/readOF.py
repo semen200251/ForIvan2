@@ -4,6 +4,7 @@ import datetime
 import logging
 import os
 import pickle
+import sys
 
 import pandas as pd
 import pythoncom
@@ -50,13 +51,15 @@ def _get_data_task(t):
                 data = getattr(t, i)
             except Exception as e:
                 arr.append("Ошибка чтения")
+                logging.error(f"{_get_data_task.__name__}: Возможно битая ячейка в столбце: {config.ID_COLUMN.get(i)}, c УИД: {arr[0]}"
+                              )
                 continue
             if isinstance(data, datetime.datetime):
                 data = datetime.datetime.date(data)
             arr.append(data)
     except Exception as e:
         print(e)
-        logging.error('%s: Неверный идентификатор столбца project', get_project.__name__)
+        logging.error('%s: Неверный идентификатор столбца project', _get_data_task.__name__)
         raise Exception('Неверный идентификатор столбца project')
     return arr
 
@@ -110,14 +113,22 @@ def fill_dataframe(project):
     data = pd.DataFrame(columns=config.ID_COLUMN.values())
     try:
         for t in task_collection:
-            data.loc[len(data.index)] = _get_data_task(t)
+            str = _get_data_task(t)
+            data.loc[len(data.index)] = str
+            if "Ошибка чтения" in str:
+                raise Exception("Битая ячейка")
     except Exception:
-        logging.error('%s: Неверно заполнен словарь столбцов и их идентификаторов', fill_dataframe.__name__)
-        raise Exception("Ошибка в словаре слобцов и их идентификаторов")
+        logging.error('%s: Ошибка при создании датафрейма', fill_dataframe.__name__)
+        raise Exception("Ошибка при создании датафрейма")
     logging.info('%s: DataFrame из столбцов объекта проекта успешно создан', fill_dataframe.__name__)
 
     return data
 
+def _resource_path(relative):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative)
+    else:
+        return os.path.join(os.path.abspath("."), relative)
 
 def set_style_excel(column_index, path_to_excel):
     """Применяет стили к строкам excel.
@@ -130,11 +141,12 @@ def set_style_excel(column_index, path_to_excel):
     (Фаза, феха и т.д.). Также она применяет тип данных там, где
     это требуется, например Дата и Процент.
     """
+    logging.info("%s: Начало внедрения стилей в Excel файл", set_style_excel.__name__)
     try:
-        with open(config.PATH_TO_STYLE_FILE, 'rb') as file:
+        with open(_resource_path(config.PATH_TO_STYLE_FILE), 'rb') as file:
             styles_dict = pickle.load(file)
     except FileNotFoundError:
-        logging.error('%s: Неверно задан путь к файлу со стилями', fill_dataframe.__name__)
+        logging.error('%s: Неверно задан путь к файлу со стилями', set_style_excel.__name__)
         raise Exception("Неверный путь до файла со стилями")
     workbook_other = openpyxl.load_workbook(path_to_excel)
     worksheet_other = workbook_other.active
@@ -164,6 +176,7 @@ def set_style_excel(column_index, path_to_excel):
             if isinstance(cell.value, datetime.date):
                 cell.number_format = numbers.builtin_format_code(14)
 
+    logging.info("%s: Стили успешно применены", set_style_excel.__name__)
     workbook_other.save(path_to_excel)
 
 
@@ -176,6 +189,9 @@ def main(path_to_project, path_to_folder):
     возвращается абсолютный путь до ОФ.
     """
     path_to_excel = None
+    logging.basicConfig(level=logging.INFO, filename=config.PATH_TO_RESERVE_FOLDER+"//лог.log", filemode="w",
+                        format="%(asctime)s %(levelname)s %(message)s")
+    logging.info(f"Начало выгрузки обменной формы для файла: {path_to_project}")
     try:
         project, msp = get_project(path_to_project)
         data = fill_dataframe(project)
@@ -186,7 +202,8 @@ def main(path_to_project, path_to_folder):
         column_index = data.columns.get_loc(config.ID_COLUMN['Text5']) + 1
         set_style_excel(column_index, path_to_excel)
     except Exception as e:
-        print(e)
-        return path_to_excel
+        logging.error(f"Ошибка в выгрузке обменной формы из файла: {path_to_project}")
+        return None
+    logging.info(f"Обменная форма успешно выгружена, файл: {path_to_project}")
     msp.Quit()
     return path_to_excel

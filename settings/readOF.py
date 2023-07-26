@@ -1,6 +1,10 @@
 """Конфиг для модуля, который формирует обменную форму из файла Project"""
 
+import os
+
 PATH_TO_STYLE_FILE = r".\settings\styles_dict.pkl"  # Путь до файла со стилями для Excel.
+
+PATH_TO_RESERVE_FOLDER = os.path.expanduser("~/Documents/reservFolder")  # Путь до резервной папки.
 
 ID_COLUMN = {'Text4': 'УИД_(П)',  # Словарь с именами столбцов и их идентификаторами в project.
              'Active': 'Активная',
